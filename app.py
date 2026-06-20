@@ -23,15 +23,15 @@ def load_audio_with_imageio_ffmpeg(file_path):
     return audio
 
 def transcribe_audio(audio_file_path):
-    print("🔄 Loading Whisper model...")
+    print(" Loading Whisper model...")
     pipe = pipeline(
         "automatic-speech-recognition",
         model="openai/whisper-tiny",
         device="cuda" if torch.cuda.is_available() else "cpu"
     )
-    print(f"👂 Decoding audio: {audio_file_path}...")
+    print(f" Decoding audio: {audio_file_path}...")
     audio_array = load_audio_with_imageio_ffmpeg(audio_file_path)
-    print("🧠 Transcribing...")
+    print(" Transcribing...")
     result = pipe(
         {"array": audio_array, "sampling_rate": 16000},
         return_timestamps=True
@@ -39,7 +39,7 @@ def transcribe_audio(audio_file_path):
     return result["text"]
 
 def summarize_text(text):
-    print("\n🧠 Summarising...")
+    print("\n Summarising...")
     model_name = "facebook/bart-large-cnn"
     tokenizer = BartTokenizer.from_pretrained(model_name)
     model = BartForConditionalGeneration.from_pretrained(model_name)
@@ -59,15 +59,15 @@ if __name__ == "__main__":
     sample_audio = "sample.mp3"
     try:
         text_output = transcribe_audio(sample_audio)
-        print("\n📝 Transcription Result:")
+        print("\n Transcription Result:")
         print("-" * 40)
         print(text_output)
         print("-" * 40)
 
         summary_output = summarize_text(text_output)
-        print("\n💡 Summary:")
+        print("\n Summary:")
         print("-" * 40)
         print(summary_output)
         print("-" * 40)
     except Exception as e:
-        print(f"\n❌ Error: {e}")
+        print(f"\n Error: {e}")
